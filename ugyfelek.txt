@@ -1,0 +1,10 @@
+1	Gábor Kovács	+36 30	123 4567
+2	Andrea Nagy	+36 20	987 6543
+3	Péter Tóth	+36 70	555 4444
+4	Anna Szabó	+36 30	222 1111
+5	László Balogh	+36 70	333 2222
+6	Éva Horváth	+36 30	777 8888
+7	Tamás Farkas	+36 20	444 3333
+8	Katalin Csaba	+36 70	666 9999
+9	Ferenc Kovács	+36 30	555 8888
+10	Zsuzsanna Kerekes	+36 20 111 2222

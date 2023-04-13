@@ -86,13 +86,13 @@ namespace ingatlan
 
                         //Ingatlanok kiíratása
                         Console.WriteLine("AZON\tCím");
-                        Console.SetCursorPosition(100, 0);
+                        Console.SetCursorPosition(95, 0);
                         Console.WriteLine("Alapter.\tÁr");
                         for (int i = 0; i < ingatlanok.Count; i++)
                         {
                             Console.WriteLine("{0}\t{1}", ingatlanok[i].azonosito, ingatlanok[i].cim);
-                            Console.SetCursorPosition(100, i + 1);
-                            Console.WriteLine("{0}\t\t{1}", ingatlanok[i].alapter, ingatlanok[i].ar);
+                            Console.SetCursorPosition(95, i + 1);
+                            Console.WriteLine("{0}\t{1} Ft", ingatlanok[i].alapter, ingatlanok[i].ar);
                         }
 
                         break;

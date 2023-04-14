@@ -108,7 +108,9 @@ namespace ingatlan
                                     Console.BackgroundColor = ConsoleColor.White;
                                     Console.ForegroundColor = ConsoleColor.Black;
                                 }
-                                Console.WriteLine("{0}\t{1}", ugyfelek[i].azonosito, ugyfelek[i].nev);
+                                Console.WriteLine("{0}", ugyfelek[i].azonosito);
+                                Console.SetCursorPosition(5,i+1-sor);
+                                Console.WriteLine("{0}", ugyfelek[i].nev);
                                 Console.SetCursorPosition(100, i+1-sor);
                                 Console.WriteLine("{0}", ugyfelek[i].tel);
                                 Console.BackgroundColor = ConsoleColor.Black;
@@ -170,9 +172,13 @@ namespace ingatlan
                                     Console.ForegroundColor = ConsoleColor.Black;
                                 }
 
-                                Console.WriteLine("{0}\t{1}", ingatlanok[i].azonosito, ingatlanok[i].cim);
+                                Console.WriteLine("{0}", ingatlanok[i].azonosito);
+                                Console.SetCursorPosition(5, i + 1 - sor2);
+                                Console.WriteLine("{0}", ingatlanok[i].cim);
                                 Console.SetCursorPosition(95, i + 1 - sor2);
-                                Console.WriteLine("{0}\t{1} Ft", ingatlanok[i].alapter, ingatlanok[i].ar);
+                                Console.WriteLine("{0} m2", ingatlanok[i].alapter);
+                                Console.SetCursorPosition(104, i + 1 - sor2);
+                                Console.WriteLine("{0} Ft", ingatlanok[i].ar);
                                 Console.BackgroundColor = ConsoleColor.Black;
                                 Console.ForegroundColor = ConsoleColor.White;
                             }
@@ -202,7 +208,7 @@ namespace ingatlan
                                     }
                                     break;
                                 case ConsoleKey.Escape:
-                                    kilepes = true;
+                                    kilepes2 = true;
                                     break;
                                 default:
                                     break;

@@ -61,7 +61,27 @@ namespace ingatlan
                 switch (valasz)
                 {
                     case '1':
-                        
+                        StreamWriter ujugyfelekfajl = new StreamWriter("ugyfelek.txt");
+                        ugyfel UjUgyfel = new ugyfel();
+                        UjUgyfel.azonosito = ugyfelek.Count+1;
+                        Console.WriteLine("Az új ügyfél azonosítója: {0}", UjUgyfel.azonosito);
+                        Console.WriteLine("Adja meg az új ügyfél nevét! (8-14 karakter hosszú MAX)");
+                        string ideiglenesnev = Console.ReadLine();
+                        while(ideiglenesnev.Length < 8 || ideiglenesnev.Length> 14)
+                        {
+                            Console.WriteLine("Adja meg az új ügyfél nevét! (8-14 karakter hosszú MAX)");
+                            ideiglenesnev = Console.ReadLine();
+                        }
+                        UjUgyfel.nev = ideiglenesnev;
+                        Console.WriteLine("Adja meg az új ügyfél telefonszámát! (+36 30 123 4567)");
+                        UjUgyfel.tel = Console.ReadLine();
+                        ugyfelek.Add(UjUgyfel);
+
+                        for (int i = 0; i < ugyfelek.Count; i++)
+                        {
+                            ujugyfelekfajl.WriteLine("{0}\t{1}\t{2}", ugyfelek[i].azonosito, ugyfelek[i].nev, ugyfelek[i].tel);
+                        }
+                        ujugyfelekfajl.Close();
                         break;
                     case '2':
                         Console.WriteLine("Ingatlanos");
@@ -71,16 +91,61 @@ namespace ingatlan
                         break;
                     case '4':
                         //Ügyféllista kiíratása
-                        Console.WriteLine("AZON\tNév");
-                        Console.SetCursorPosition(100, 0);
-                        Console.WriteLine("Telefonszám");
-
-                        for (int i = 0; i < ugyfelek.Count; i++)
+                        int sor = 0;
+                        int db = 5;
+                        int kijelolt = 0;
+                        bool kilepes = false;
+                        do
                         {
-                            Console.WriteLine("{0}\t{1}", ugyfelek[i].azonosito, ugyfelek[i].nev);
-                            Console.SetCursorPosition(100, i + 1);
-                            Console.WriteLine("{0}", ugyfelek[i].tel);
-                        }
+                            Console.Clear();
+                            Console.WriteLine("AZON\tNév");
+                            Console.SetCursorPosition(105, 0);
+                            Console.WriteLine("Telefonszám");
+                            for (int i = sor; i < sor + db; i++)
+                            {
+                                if (i == kijelolt)
+                                {
+                                    Console.BackgroundColor = ConsoleColor.White;
+                                    Console.ForegroundColor = ConsoleColor.Black;
+                                }
+                                Console.WriteLine("{0}\t{1}\t\t\t\t\t\t\t\t\t\t        {2}", ugyfelek[i].azonosito, ugyfelek[i].nev, ugyfelek[i].tel);
+                                Console.BackgroundColor = ConsoleColor.Black;
+                                Console.ForegroundColor = ConsoleColor.White;
+                            }
+                            Console.WriteLine("Esc: kilépés, ↑: fel, ↓: le");
+                            ConsoleKey valasz2 = Console.ReadKey().Key;
+                            switch (valasz2)
+                            {
+                                case ConsoleKey.UpArrow:
+                                    if (kijelolt  >= 4 && sor != 0)
+                                    {
+                                        sor--;
+                                    }
+                                    if(kijelolt > 0)
+                                    {
+                                        kijelolt--;
+                                    }
+                                    break;
+                                case ConsoleKey.DownArrow:
+                                    if (kijelolt >= 4 && sor != ugyfelek.Count - db)
+                                    {
+                                        sor++;
+                                        kijelolt++;
+                                    }
+                                    else if(kijelolt < 4)
+                                    {
+                                        kijelolt++;
+                                    }
+                                    break;
+                                case ConsoleKey.Escape:
+                                    kilepes = true;
+                                    break;
+                                default:
+                                    break;
+                            }
+
+
+                        } while (!kilepes);
 
                         break;
                     case '5':
@@ -92,7 +157,7 @@ namespace ingatlan
                         {
                             Console.WriteLine("{0}\t{1}", ingatlanok[i].azonosito, ingatlanok[i].cim);
                             Console.SetCursorPosition(95, i + 1);
-                            Console.WriteLine("{0}\t{1} Ft", ingatlanok[i].alapter, ingatlanok[i].ar);
+                            Console.WriteLine("{0} m2\t{1} Ft", ingatlanok[i].alapter, ingatlanok[i].ar);
                         }
 
                         break;

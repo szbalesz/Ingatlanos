@@ -48,7 +48,7 @@ namespace ingatlan
                 ugyfelek.Add(UjUgyfel);
             }
 
-            string[] menupontok = { "Új ügyfél felvétele", "Új ingatlan felvétele", "Már eladott ingatlan törlése", "Ügyfelek kiíratása", "Ingatlanok kiíratása", "Kilépés" };
+            string[] menupontok = { "Új ügyfél felvétele", "Új ingatlan felvétele", "Már eladott ingatlan törlése", "Ügyfelek kiíratása", "Ingatlanok kiíratása", "Ajánlat kérése" ,"Kilépés" };
             while (true)
             {
                 Console.Clear();
@@ -97,6 +97,12 @@ namespace ingatlan
 
                         break;
                     case '6':
+
+
+
+
+                        break;
+                    case '7':
                         System.Environment.Exit(1);
                         break;
                     default:

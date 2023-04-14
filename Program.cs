@@ -61,7 +61,6 @@ namespace ingatlan
                 switch (valasz)
                 {
                     case '1':
-                        StreamWriter ujugyfelekfajl = new StreamWriter("ugyfelek.txt");
                         ugyfel UjUgyfel = new ugyfel();
                         UjUgyfel.azonosito = ugyfelek.Count+1;
                         Console.WriteLine("Az új ügyfél azonosítója: {0}", UjUgyfel.azonosito);
@@ -77,6 +76,7 @@ namespace ingatlan
                         UjUgyfel.tel = Console.ReadLine();
                         ugyfelek.Add(UjUgyfel);
 
+                        StreamWriter ujugyfelekfajl = new StreamWriter("ugyfelek.txt");
                         for (int i = 0; i < ugyfelek.Count; i++)
                         {
                             ujugyfelekfajl.WriteLine("{0}\t{1}\t{2}", ugyfelek[i].azonosito, ugyfelek[i].nev, ugyfelek[i].tel);
@@ -99,7 +99,7 @@ namespace ingatlan
                         {
                             Console.Clear();
                             Console.WriteLine("AZON\tNév");
-                            Console.SetCursorPosition(105, 0);
+                            Console.SetCursorPosition(100, 0);
                             Console.WriteLine("Telefonszám");
                             for (int i = sor; i < sor + db; i++)
                             {
@@ -108,7 +108,9 @@ namespace ingatlan
                                     Console.BackgroundColor = ConsoleColor.White;
                                     Console.ForegroundColor = ConsoleColor.Black;
                                 }
-                                Console.WriteLine("{0}\t{1}\t\t\t\t\t\t\t\t\t\t        {2}", ugyfelek[i].azonosito, ugyfelek[i].nev, ugyfelek[i].tel);
+                                Console.WriteLine("{0}\t{1}", ugyfelek[i].azonosito, ugyfelek[i].nev);
+                                Console.SetCursorPosition(100, i+1-sor);
+                                Console.WriteLine("{0}", ugyfelek[i].tel);
                                 Console.BackgroundColor = ConsoleColor.Black;
                                 Console.ForegroundColor = ConsoleColor.White;
                             }
@@ -168,7 +170,9 @@ namespace ingatlan
                                     Console.ForegroundColor = ConsoleColor.Black;
                                 }
 
-                                Console.WriteLine("{0}\t{1}\t\t\t\t\t\t\t\t{2}\t{3} Ft", ingatlanok[i].azonosito, ingatlanok[i].cim, ingatlanok[i].alapter, ingatlanok[i].ar);
+                                Console.WriteLine("{0}\t{1}", ingatlanok[i].azonosito, ingatlanok[i].cim);
+                                Console.SetCursorPosition(95, i + 1 - sor2);
+                                Console.WriteLine("{0}\t{1} Ft", ingatlanok[i].alapter, ingatlanok[i].ar);
                                 Console.BackgroundColor = ConsoleColor.Black;
                                 Console.ForegroundColor = ConsoleColor.White;
                             }

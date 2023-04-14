@@ -62,16 +62,10 @@ namespace ingatlan
                 {
                     case '1':
                         ugyfel UjUgyfel = new ugyfel();
-                        UjUgyfel.azonosito = ugyfelek.Count+1;
+                        UjUgyfel.azonosito = ugyfelek[ugyfelek.Count-1].azonosito + 1;
                         Console.WriteLine("Az új ügyfél azonosítója: {0}", UjUgyfel.azonosito);
-                        Console.WriteLine("Adja meg az új ügyfél nevét! (8-14 karakter hosszú MAX)");
-                        string ideiglenesnev = Console.ReadLine();
-                        while(ideiglenesnev.Length < 8 || ideiglenesnev.Length> 14)
-                        {
-                            Console.WriteLine("Adja meg az új ügyfél nevét! (8-14 karakter hosszú MAX)");
-                            ideiglenesnev = Console.ReadLine();
-                        }
-                        UjUgyfel.nev = ideiglenesnev;
+                        Console.WriteLine("Adja meg az új ügyfél nevét!");
+                        UjUgyfel.nev = Console.ReadLine(); ;
                         Console.WriteLine("Adja meg az új ügyfél telefonszámát! (+36 30 123 4567)");
                         UjUgyfel.tel = Console.ReadLine();
                         ugyfelek.Add(UjUgyfel);
@@ -84,10 +78,54 @@ namespace ingatlan
                         ujugyfelekfajl.Close();
                         break;
                     case '2':
-                        Console.WriteLine("Ingatlanos");
+                        ingatlan  UjIngatlan = new ingatlan();
+                        UjIngatlan.azonosito = ingatlanok[ingatlanok.Count-1].azonosito + 1;
+                        Console.WriteLine("Az új ingatlan azonosítója: {0}", UjIngatlan.azonosito);
+                        Console.WriteLine("Adja meg az új ingatlan címe!");
+                        UjIngatlan.cim = Console.ReadLine();
+                        Console.WriteLine("Adja meg az új ingatlan alapterületát! (mértékegység nélkül)");
+                        UjIngatlan.alapter = int.Parse(Console.ReadLine());
+                        Console.WriteLine("Adja meg az új ingatlan árát! (pénznem nélkül)");
+                        UjIngatlan.ar = int.Parse(Console.ReadLine());
+                        ingatlanok.Add(UjIngatlan);
+
+                        StreamWriter ujingatlanokfajl = new StreamWriter("ingatlanok.txt");
+                        for (int i = 0; i < ingatlanok.Count; i++)
+                        {
+                            ujingatlanokfajl.WriteLine("{0}\t{1}\t{2}\t{3}", ingatlanok[i].azonosito, ingatlanok[i].cim, ingatlanok[i].alapter, ingatlanok[i].ar);
+                        }
+                        ujingatlanokfajl.Close();
                         break;
                     case '3':
-                        Console.WriteLine("Eladott ingatlanos");
+                        Console.WriteLine("Adja meg az eladott ingatlan azonosítóját!");
+                        int torolniakart = int.Parse(Console.ReadLine());
+                        bool letezik = false;
+                        for (int i = 0; i < ingatlanok.Count; i++)
+                        {
+                            if(torolniakart == ingatlanok[i].azonosito)
+                            {
+                                letezik = true;
+                                ingatlanok.Remove(ingatlanok[i]);
+                                break;
+                            }
+                        }
+                        if (letezik)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine("Sikeresen törölte a {0} azonosítójú ingatlant!",torolniakart);
+                            StreamWriter ujingatlanokfajl2 = new StreamWriter("ingatlanok.txt");
+                            for (int f = 0; f < ingatlanok.Count; f++)
+                            {
+                                ujingatlanokfajl2.WriteLine("{0}\t{1}\t{2}\t{3}", ingatlanok[f].azonosito, ingatlanok[f].cim, ingatlanok[f].alapter, ingatlanok[f].ar);
+                            }
+                            ujingatlanokfajl2.Close();
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("Nem található {0} azonosítójú ingatlan!", torolniakart);
+                        }
+                        Console.ForegroundColor = ConsoleColor.White;
                         break;
                     case '4':
                         //Ügyféllista kiíratása
@@ -233,9 +271,9 @@ namespace ingatlan
                         Console.WriteLine("Ilyen menüpont nem létezik");
                         break;
                 }
-                Console.WriteLine("----------------------------------------------------");
-                Console.WriteLine("   Nyomj meg egy gombot, hogy visszatérj a menübe!  ");
-                Console.WriteLine("----------------------------------------------------");
+                Console.WriteLine("                                   ----------------------------------------------------");
+                Console.WriteLine("                                        Nyomj meg egy gombot, hogy visszatérj a menübe!  ");
+                Console.WriteLine("                                    ----------------------------------------------------");
                 Console.ReadKey();
             }
         }

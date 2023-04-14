@@ -150,15 +150,64 @@ namespace ingatlan
                         break;
                     case '5':
                         //Ingatlanok kiíratása
-                        Console.WriteLine("AZON\tCím");
-                        Console.SetCursorPosition(95, 0);
-                        Console.WriteLine("Alapter.\tÁr");
-                        for (int i = 0; i < ingatlanok.Count; i++)
+                        int sor2 = 0;
+                        int db2 = 5;
+                        int kijelolt2 = 0;
+                        bool kilepes2 = false;
+                        do
                         {
-                            Console.WriteLine("{0}\t{1}", ingatlanok[i].azonosito, ingatlanok[i].cim);
-                            Console.SetCursorPosition(95, i + 1);
-                            Console.WriteLine("{0} m2\t{1} Ft", ingatlanok[i].alapter, ingatlanok[i].ar);
-                        }
+                            Console.Clear();
+                            Console.WriteLine("AZON\tCím");
+                            Console.SetCursorPosition(95, 0);
+                            Console.WriteLine("Alapter.\tÁr");
+                            for (int i = sor2; i < sor2 + db2; i++)
+                            {
+                                if (i == kijelolt2)
+                                {
+                                    Console.BackgroundColor = ConsoleColor.White;
+                                    Console.ForegroundColor = ConsoleColor.Black;
+                                }
+
+                                Console.WriteLine("{0}\t{1}\t\t\t\t\t\t\t\t{2}\t{3} Ft", ingatlanok[i].azonosito, ingatlanok[i].cim, ingatlanok[i].alapter, ingatlanok[i].ar);
+                                Console.BackgroundColor = ConsoleColor.Black;
+                                Console.ForegroundColor = ConsoleColor.White;
+                            }
+                            Console.WriteLine("Esc: kilépés, ↑: fel, ↓: le");
+                            ConsoleKey valasz2 = Console.ReadKey().Key;
+                            switch (valasz2)
+                            {
+                                case ConsoleKey.UpArrow:
+                                    if (kijelolt2 >= 4 && sor2 != 0)
+                                    {
+                                        sor2--;
+                                    }
+                                    if (kijelolt2 > 0)
+                                    {
+                                        kijelolt2--;
+                                    }
+                                    break;
+                                case ConsoleKey.DownArrow:
+                                    if (kijelolt2 >= 4 && sor2 != ingatlanok.Count - db2)
+                                    {
+                                        sor2++;
+                                        kijelolt2++;
+                                    }
+                                    else if (kijelolt2 < 4)
+                                    {
+                                        kijelolt2++;
+                                    }
+                                    break;
+                                case ConsoleKey.Escape:
+                                    kilepes = true;
+                                    break;
+                                default:
+                                    break;
+                            }
+
+
+                        } while (!kilepes2);
+
+
 
                         break;
                     case '6':

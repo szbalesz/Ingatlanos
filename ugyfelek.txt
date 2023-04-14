@@ -7,4 +7,10 @@
 7	Tamás Farkas	+36 20 444 3333
 8	Katalin Csaba	+36 70 666 9999
 9	Ferenc Kovács	+36 30 555 8888
-10	Zsuzsanna Kerekes	+36 20 111 2222
+10	Zsuzsanna Nagy	+36 20 111 2222
+11	Száraz Bálint	+36 30 272 1234
+12	asd	+36 12 123 1234
+13	balow	+35 30 123 4567
+14	asdasd	+36301234245
+15	sziasziaszia	+36 30 2342 2423
+16	12345678	+36 30 272 4487

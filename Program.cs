@@ -24,6 +24,29 @@ namespace ingatlan
         }
         static void Main(string[] args)
         {
+            List<ingatlan> ingatlanok = new List<ingatlan>();
+            string[] ingatlanokfajl = File.ReadAllLines("ingatlanok.txt");
+            for (int i = 0; i < ingatlanokfajl.Length; i++)
+            {
+                ingatlan UjIngatlan = new ingatlan();
+                UjIngatlan.azonosito = int.Parse(ingatlanokfajl[i].Split('\t')[0]);
+                UjIngatlan.cim = ingatlanokfajl[i].Split('\t')[1];
+                UjIngatlan.alapter = int.Parse(ingatlanokfajl[i].Split('\t')[2]);
+                UjIngatlan.ar = int.Parse(ingatlanokfajl[i].Split('\t')[3]);
+                ingatlanok.Add(UjIngatlan);
+            }
+
+            //ügyfelek beolvasása, és listához adása
+            List<ugyfel> ugyfelek = new List<ugyfel>();
+            string[] ugyfelekfajl = File.ReadAllLines("ugyfelek.txt");
+            for (int i = 0; i < ugyfelekfajl.Length; i++)
+            {
+                ugyfel UjUgyfel = new ugyfel();
+                UjUgyfel.azonosito = int.Parse(ugyfelekfajl[i].Split('\t')[0]);
+                UjUgyfel.nev = ugyfelekfajl[i].Split('\t')[1];
+                UjUgyfel.tel = ugyfelekfajl[i].Split('\t')[2];
+                ugyfelek.Add(UjUgyfel);
+            }
 
             string[] menupontok = { "Új ügyfél felvétele", "Új ingatlan felvétele", "Már eladott ingatlan törlése", "Ügyfelek kiíratása", "Ingatlanok kiíratása", "Kilépés" };
             while (true)
@@ -38,7 +61,7 @@ namespace ingatlan
                 switch (valasz)
                 {
                     case '1':
-                        Console.WriteLine("Ügyfeles");
+                        
                         break;
                     case '2':
                         Console.WriteLine("Ingatlanos");
@@ -47,18 +70,6 @@ namespace ingatlan
                         Console.WriteLine("Eladott ingatlanos");
                         break;
                     case '4':
-                        //ügyfelek beolvasása, és listához adása
-                        List<ugyfel> ugyfelek = new List<ugyfel>();
-                        string[] ugyfelekfajl = File.ReadAllLines("ugyfelek.txt");
-                        for (int i = 0; i < ugyfelekfajl.Length; i++)
-                        {
-                            ugyfel UjUgyfel = new ugyfel();
-                            UjUgyfel.azonosito = int.Parse(ugyfelekfajl[i].Split('\t')[0]);
-                            UjUgyfel.nev = ugyfelekfajl[i].Split('\t')[1];
-                            UjUgyfel.tel = ugyfelekfajl[i].Split('\t')[2];
-                            ugyfelek.Add(UjUgyfel);
-                        }
-
                         //Ügyféllista kiíratása
                         Console.WriteLine("AZON\tNév");
                         Console.SetCursorPosition(100, 0);
@@ -70,20 +81,9 @@ namespace ingatlan
                             Console.SetCursorPosition(100, i + 1);
                             Console.WriteLine("{0}", ugyfelek[i].tel);
                         }
+
                         break;
                     case '5':
-                        List<ingatlan> ingatlanok = new List<ingatlan>();
-                        string[] ingatlanokfajl = File.ReadAllLines("ingatlanok.txt");
-                        for (int i = 0; i < ingatlanokfajl.Length; i++)
-                        {
-                            ingatlan UjIngatlan= new ingatlan();
-                            UjIngatlan.azonosito = int.Parse(ingatlanokfajl[i].Split('\t')[0]);
-                            UjIngatlan.cim = ingatlanokfajl[i].Split('\t')[1];
-                            UjIngatlan.alapter = int.Parse(ingatlanokfajl[i].Split('\t')[2]);
-                            UjIngatlan.ar = int.Parse(ingatlanokfajl[i].Split('\t')[3]);
-                            ingatlanok.Add(UjIngatlan);
-                        }
-
                         //Ingatlanok kiíratása
                         Console.WriteLine("AZON\tCím");
                         Console.SetCursorPosition(95, 0);

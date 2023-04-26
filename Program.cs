@@ -9,7 +9,7 @@ namespace ingatlan
 {
     class Program
     {
-        struct ugyfel
+        struct ugyfel 
         {
             public int azonosito;
             public string nev;
@@ -22,9 +22,70 @@ namespace ingatlan
             public int alapter;
             public int ar;
         }
+        static List<ugyfel> ugyfelek = new List<ugyfel>();
+        static List<ingatlan> ingatlanok = new List<ingatlan>();
+        /// <summary>
+        /// Ügyfelek, Ingatlanok kiíratásának rendezése
+        /// </summary>
+        /// <param name="mit">Mi alapján szeretnék rendezni</param>
+        /// <param name="hossz">Milyen hosszú az adott lista</param>
+        static void rendezes(string mit,int hossz)
+        {
+            for (int i = 0; i < hossz; i++)
+            {
+                for (int f = 0; f < hossz - 1; f++)
+                {
+                    if(mit == "nev")
+                    {
+                        if (ugyfelek[f].nev[0] > ugyfelek[f + 1].nev[0])
+                        {
+                            ugyfel ideiglenes = ugyfelek[f + 1];
+                            ugyfelek[f + 1] = ugyfelek[f];
+                            ugyfelek[f] = ideiglenes;
+                        }
+                    }
+                   else if(mit == "ugyfelazonosito")
+                    {
+                        if (ugyfelek[f].azonosito > ugyfelek[f + 1].azonosito)
+                        {
+                            ugyfel ideiglenes = ugyfelek[f + 1];
+                            ugyfelek[f + 1] = ugyfelek[f];
+                            ugyfelek[f] = ideiglenes;
+                        }
+                    }
+                    else if (mit == "ingatlanazonosito")
+                    {
+                        if (ingatlanok[f].azonosito > ingatlanok[f + 1].azonosito)
+                        {
+                            ingatlan ideiglenes = ingatlanok[f + 1];
+                            ingatlanok[f + 1] = ingatlanok[f];
+                            ingatlanok[f] = ideiglenes;
+                        }
+                    }
+                    else if (mit == "cim")
+                    {
+                        if (int.Parse(ingatlanok[f].cim.Split(' ')[0]) > int.Parse(ingatlanok[f+1].cim.Split(' ')[0]))
+                        {
+                            ingatlan ideiglenes = ingatlanok[f + 1];
+                            ingatlanok[f + 1] = ingatlanok[f];
+                            ingatlanok[f] = ideiglenes;
+                        }
+                    }
+                    else if (mit == "ar")
+                    {
+                        if (ingatlanok[f].ar > ingatlanok[f + 1].ar)
+                        {
+                            ingatlan ideiglenes = ingatlanok[f + 1];
+                            ingatlanok[f + 1] = ingatlanok[f];
+                            ingatlanok[f] = ideiglenes;
+                        }
+                    }
+                }
+            }
+        }
         static void Main(string[] args)
         {
-            List<ingatlan> ingatlanok = new List<ingatlan>();
+            //ingatlanok beolvasása, és listában tárolása
             string[] ingatlanokfajl = File.ReadAllLines("ingatlanok.txt");
             for (int i = 0; i < ingatlanokfajl.Length; i++)
             {
@@ -36,8 +97,7 @@ namespace ingatlan
                 ingatlanok.Add(UjIngatlan);
             }
 
-            //ügyfelek beolvasása, és listához adása
-            List<ugyfel> ugyfelek = new List<ugyfel>();
+            //ügyfelek beolvasása, és listában tárolása
             string[] ugyfelekfajl = File.ReadAllLines("ugyfelek.txt");
             for (int i = 0; i < ugyfelekfajl.Length; i++)
             {
@@ -47,8 +107,8 @@ namespace ingatlan
                 UjUgyfel.tel = ugyfelekfajl[i].Split('\t')[2];
                 ugyfelek.Add(UjUgyfel);
             }
-
-            string[] menupontok = { "Új ügyfél felvétele", "Új ingatlan felvétele", "Már eladott ingatlan törlése", "Ügyfelek kiíratása", "Ingatlanok kiíratása", "Ajánlat kérése" ,"Kilépés" };
+            Console.Title = "Ingatlanos program";
+            string[] menupontok = { "Új ügyfél felvétele", "Új ingatlan felvétele", "Már eladott ingatlan törlése", "Ügyfelek kiíratása", "Ingatlanok kiíratása", "Ajánlat kérése", "Kilépés" };
             while (true)
             {
                 Console.Clear();
@@ -62,14 +122,16 @@ namespace ingatlan
                 {
                     case '1':
                         ugyfel UjUgyfel = new ugyfel();
-                        UjUgyfel.azonosito = ugyfelek[ugyfelek.Count-1].azonosito + 1;
+                        UjUgyfel.azonosito = ugyfelek.Count + 1;
                         Console.WriteLine("Az új ügyfél azonosítója: {0}", UjUgyfel.azonosito);
                         Console.WriteLine("Adja meg az új ügyfél nevét!");
                         UjUgyfel.nev = Console.ReadLine(); ;
                         Console.WriteLine("Adja meg az új ügyfél telefonszámát! (+36 30 123 4567)");
                         UjUgyfel.tel = Console.ReadLine();
                         ugyfelek.Add(UjUgyfel);
-
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("Sikeres ügyfél hozzáadás!");
+                        Console.ForegroundColor = ConsoleColor.White;
                         StreamWriter ujugyfelekfajl = new StreamWriter("ugyfelek.txt");
                         for (int i = 0; i < ugyfelek.Count; i++)
                         {
@@ -78,17 +140,19 @@ namespace ingatlan
                         ujugyfelekfajl.Close();
                         break;
                     case '2':
-                        ingatlan  UjIngatlan = new ingatlan();
-                        UjIngatlan.azonosito = ingatlanok[ingatlanok.Count-1].azonosito + 1;
+                        ingatlan UjIngatlan = new ingatlan();
+                        UjIngatlan.azonosito = ingatlanok.Count + 1;
                         Console.WriteLine("Az új ingatlan azonosítója: {0}", UjIngatlan.azonosito);
-                        Console.WriteLine("Adja meg az új ingatlan címe!");
+                        Console.WriteLine("Adja meg az új ingatlan címét!");
                         UjIngatlan.cim = Console.ReadLine();
                         Console.WriteLine("Adja meg az új ingatlan alapterületát! (mértékegység nélkül)");
                         UjIngatlan.alapter = int.Parse(Console.ReadLine());
                         Console.WriteLine("Adja meg az új ingatlan árát! (pénznem nélkül)");
                         UjIngatlan.ar = int.Parse(Console.ReadLine());
                         ingatlanok.Add(UjIngatlan);
-
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("Sikeres ingatlan hozzáadás!");
+                        Console.ForegroundColor = ConsoleColor.White;
                         StreamWriter ujingatlanokfajl = new StreamWriter("ingatlanok.txt");
                         for (int i = 0; i < ingatlanok.Count; i++)
                         {
@@ -102,7 +166,7 @@ namespace ingatlan
                         bool letezik = false;
                         for (int i = 0; i < ingatlanok.Count; i++)
                         {
-                            if(torolniakart == ingatlanok[i].azonosito)
+                            if (torolniakart == ingatlanok[i].azonosito)
                             {
                                 letezik = true;
                                 ingatlanok.Remove(ingatlanok[i]);
@@ -112,7 +176,7 @@ namespace ingatlan
                         if (letezik)
                         {
                             Console.ForegroundColor = ConsoleColor.Green;
-                            Console.WriteLine("Sikeresen törölte a {0} azonosítójú ingatlant!",torolniakart);
+                            Console.WriteLine("Sikeresen törölte a {0} azonosítójú ingatlant!", torolniakart);
                             StreamWriter ujingatlanokfajl2 = new StreamWriter("ingatlanok.txt");
                             for (int f = 0; f < ingatlanok.Count; f++)
                             {
@@ -137,33 +201,46 @@ namespace ingatlan
                         {
                             Console.Clear();
                             Console.WriteLine("AZON\tNév");
-                            Console.SetCursorPosition(100, 0);
+                            Console.SetCursorPosition(Console.WindowWidth - 16, 0);
                             Console.WriteLine("Telefonszám");
                             for (int i = sor; i < sor + db; i++)
                             {
                                 if (i == kijelolt)
                                 {
                                     Console.BackgroundColor = ConsoleColor.White;
+                                    for (int f = 0; f < Console.WindowWidth; f++)
+                                    {
+                                        Console.Write(" ");
+                                    }
                                     Console.ForegroundColor = ConsoleColor.Black;
                                 }
+                                Console.SetCursorPosition(0, i + 1 - sor);
                                 Console.WriteLine("{0}", ugyfelek[i].azonosito);
-                                Console.SetCursorPosition(5,i+1-sor);
+                                Console.SetCursorPosition(5, i + 1 - sor);
                                 Console.WriteLine("{0}", ugyfelek[i].nev);
-                                Console.SetCursorPosition(100, i+1-sor);
+                                Console.SetCursorPosition(Console.WindowWidth-16, i + 1 - sor);
                                 Console.WriteLine("{0}", ugyfelek[i].tel);
                                 Console.BackgroundColor = ConsoleColor.Black;
                                 Console.ForegroundColor = ConsoleColor.White;
                             }
-                            Console.WriteLine("Esc: kilépés, ↑: fel, ↓: le");
+                            string sorelvalaszto = "";
+                            for (int i = 0; i < Console.WindowWidth; i++)
+                            {
+                                sorelvalaszto += "─";
+                            }
+                            Console.WriteLine(sorelvalaszto);
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine("\tRendezés: Azonosító szerint(E), Név szerint(R)    |     Vezérlés: Esc: kilépés, ↑: fel, ↓: le, ");
+                            Console.ForegroundColor = ConsoleColor.White;
                             ConsoleKey valasz2 = Console.ReadKey().Key;
                             switch (valasz2)
                             {
                                 case ConsoleKey.UpArrow:
-                                    if (kijelolt  >= 4 && sor != 0)
+                                    if (kijelolt >= 4 && sor != 0)
                                     {
                                         sor--;
                                     }
-                                    if(kijelolt > 0)
+                                    if (kijelolt > 0)
                                     {
                                         kijelolt--;
                                     }
@@ -174,12 +251,21 @@ namespace ingatlan
                                         sor++;
                                         kijelolt++;
                                     }
-                                    else if(kijelolt < 4)
+                                    else if (kijelolt < 4)
                                     {
                                         kijelolt++;
                                     }
                                     break;
+                                case ConsoleKey.E:
+                                    //Rendezés azonosító szerint
+                                    rendezes("ugyfelazonosito", ugyfelek.Count);
+                                    break;
+                                case ConsoleKey.R:
+                                    //Rendezés név szerint
+                                    rendezes("nev", ugyfelek.Count);
+                                    break;
                                 case ConsoleKey.Escape:
+                                    rendezes("ugyfelazonosito", ugyfelek.Count);
                                     kilepes = true;
                                     break;
                                 default:
@@ -200,27 +286,40 @@ namespace ingatlan
                         {
                             Console.Clear();
                             Console.WriteLine("AZON\tCím");
-                            Console.SetCursorPosition(95, 0);
-                            Console.WriteLine("Alapter.\tÁr");
+                            Console.SetCursorPosition(Console.WindowWidth - 21, 0);
+                            Console.WriteLine("Alapter.  Ár");
                             for (int i = sor2; i < sor2 + db2; i++)
                             {
                                 if (i == kijelolt2)
                                 {
                                     Console.BackgroundColor = ConsoleColor.White;
+                                    for (int f = 0; f < Console.WindowWidth; f++)
+                                    {
+                                        Console.Write(" ");
+                                    }
                                     Console.ForegroundColor = ConsoleColor.Black;
                                 }
 
+                                Console.SetCursorPosition(0, i + 1 - sor2);
                                 Console.WriteLine("{0}", ingatlanok[i].azonosito);
                                 Console.SetCursorPosition(5, i + 1 - sor2);
                                 Console.WriteLine("{0}", ingatlanok[i].cim);
-                                Console.SetCursorPosition(95, i + 1 - sor2);
+                                Console.SetCursorPosition(Console.WindowWidth - 21, i + 1 - sor2);
                                 Console.WriteLine("{0} m2", ingatlanok[i].alapter);
-                                Console.SetCursorPosition(104, i + 1 - sor2);
+                                Console.SetCursorPosition(Console.WindowWidth - 11, i + 1 - sor2);
                                 Console.WriteLine("{0} Ft", ingatlanok[i].ar);
                                 Console.BackgroundColor = ConsoleColor.Black;
                                 Console.ForegroundColor = ConsoleColor.White;
                             }
-                            Console.WriteLine("Esc: kilépés, ↑: fel, ↓: le");
+                            string sorelvalaszto = "";
+                            for (int i = 0; i < Console.WindowWidth; i++)
+                            {
+                                sorelvalaszto += "─";
+                            }
+                            Console.WriteLine(sorelvalaszto);
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine("\tRendezés: Azonosító szerint(E), Cím szerint(R), Ár szerint(T)    |    Vezérlés: Esc: kilépés, ↑: fel, ↓: le, ");
+                            Console.ForegroundColor = ConsoleColor.White;
                             ConsoleKey valasz2 = Console.ReadKey().Key;
                             switch (valasz2)
                             {
@@ -245,8 +344,22 @@ namespace ingatlan
                                         kijelolt2++;
                                     }
                                     break;
+                                case ConsoleKey.E:
+                                    //Rendezés azonosító szerint
+                                    rendezes("ingatlanazonosito",ingatlanok.Count);
+                                    break;
+                                case ConsoleKey.R:
+                                    //Rendezés cím(irányítószám) szerint
+                                    rendezes("cim", ingatlanok.Count);
+                                    break;
+                                case ConsoleKey.T:
+                                    //Rendezés ár szerint
+                                    rendezes("ar", ingatlanok.Count);
+                                    break;
                                 case ConsoleKey.Escape:
                                     kilepes2 = true;
+                                    //Rendezés alap állapotba
+                                    rendezes("ingatlanazonosito", ingatlanok.Count);
                                     break;
                                 default:
                                     break;
@@ -271,9 +384,10 @@ namespace ingatlan
                         Console.WriteLine("Ilyen menüpont nem létezik");
                         break;
                 }
-                Console.WriteLine("                                   ----------------------------------------------------");
+                Console.WriteLine();
+                Console.WriteLine("                                    ───────────────────────────────────────────────────────");
                 Console.WriteLine("                                        Nyomj meg egy gombot, hogy visszatérj a menübe!  ");
-                Console.WriteLine("                                    ----------------------------------------------------");
+                Console.WriteLine("                                    ───────────────────────────────────────────────────────");
                 Console.ReadKey();
             }
         }

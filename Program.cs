@@ -201,7 +201,7 @@ namespace ingatlan
                         {
                             Console.Clear();
                             Console.WriteLine("AZON\tNév");
-                            Console.SetCursorPosition(Console.WindowWidth - 16, 0);
+                            Console.SetCursorPosition(Console.WindowWidth - 17, 0);
                             Console.WriteLine("Telefonszám");
                             for (int i = sor; i < sor + db; i++)
                             {
@@ -218,7 +218,7 @@ namespace ingatlan
                                 Console.WriteLine("{0}", ugyfelek[i].azonosito);
                                 Console.SetCursorPosition(5, i + 1 - sor);
                                 Console.WriteLine("{0}", ugyfelek[i].nev);
-                                Console.SetCursorPosition(Console.WindowWidth-16, i + 1 - sor);
+                                Console.SetCursorPosition(Console.WindowWidth-17, i + 1 - sor);
                                 Console.WriteLine("{0}", ugyfelek[i].tel);
                                 Console.BackgroundColor = ConsoleColor.Black;
                                 Console.ForegroundColor = ConsoleColor.White;

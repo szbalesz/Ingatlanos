@@ -389,30 +389,30 @@ namespace ingatlan
                         }
                         Console.WriteLine("Kérem adja meg a mai dátumot(2023-02-26):");
                         string datum = Console.ReadLine();
-                        Console.WriteLine("Kérem adja meg hány ingatlanról szeretne ajánlatot kapni: (Max {0})",ingatlanok.Count);                       
+                        Console.WriteLine("Kérem adja meg hány ingatlanról szeretne ajánlatot kapni: (Max {0})", ingatlanok.Count);
                         int darab = int.Parse(Console.ReadLine());
-                        while (darab>ingatlanok.Count)
+                        while (darab > ingatlanok.Count)
                         {
-                            Console.WriteLine("Nem elérhető ennyi ingatlan (Max {0})",ingatlanok.Count);
+                            Console.WriteLine("Nem elérhető ennyi ingatlan (Max {0})", ingatlanok.Count);
                             darab = int.Parse(Console.ReadLine());
                         }
                         if (talalt)
                         {
-                            StreamWriter ajanlat = new StreamWriter("ajanlat.txt");
-                           
+                            StreamWriter ajanlat = new StreamWriter(szemely+"_"+datum+".txt");
+
                             ajanlat.WriteLine("Kedves {0} a számodra ajánlott ingatlan adatai", ugyfelek[szemely].nev);
                             ajanlat.WriteLine("Azon\tCím\t\tAlapterület\t\tÁr");
                             int[] ajanlatok = new int[darab];
-                            for (int i = 0; i < darab-1; i++)
+                            for (int i = 0; i < darab - 1; i++)
                             {
                                 int veletlen = r.Next(0, ingatlanok.Count);
-                                while(ajanlatok.Contains(veletlen))
+                                while (ajanlatok.Contains(veletlen))
                                 {
                                     veletlen = r.Next(0, ingatlanok.Count);
-                                    
+
                                 }
                                 ajanlatok[i] = veletlen;
-                               
+
                             }
                             for (int i = 0; i < darab; i++)
                             {

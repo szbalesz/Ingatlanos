@@ -372,7 +372,6 @@ namespace ingatlan
 
                         break;
                     case '6':
-
                         Random r = new Random();
                         bool talalt = false;
                         int szemely = 0;
@@ -385,9 +384,7 @@ namespace ingatlan
                                 if (ugyfelek[i].azonosito == szemely)
                                 {
                                     talalt = true;
-
                                 }
-
                             }
                         }
                         Console.WriteLine("Kérem adja meg a mai dátumot(2023-02-26):");
@@ -399,7 +396,6 @@ namespace ingatlan
                             Console.WriteLine("Nem elérhető ennyi ingatlan (Max {0})",ingatlanok.Count);
                             darab = int.Parse(Console.ReadLine());
                         }
-                        
                         if (talalt)
                         {
                             StreamWriter ajanlat = new StreamWriter("ajanlat.txt");
@@ -432,11 +428,6 @@ namespace ingatlan
                         {
                             Console.WriteLine("Érvénytelen sorszám(ok);");
                         }
-
-
-
-
-
                         break;
                     case '7':
                         System.Environment.Exit(1);

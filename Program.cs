@@ -9,7 +9,7 @@ namespace ingatlan
 {
     class Program
     {
-        struct ugyfel 
+        struct ugyfel
         {
             public int azonosito;
             public string nev;
@@ -29,13 +29,13 @@ namespace ingatlan
         /// </summary>
         /// <param name="mit">Mi alapján szeretnék rendezni</param>
         /// <param name="hossz">Milyen hosszú az adott lista</param>
-        static void rendezes(string mit,int hossz)
+        static void rendezes(string mit, int hossz)
         {
             for (int i = 0; i < hossz; i++)
             {
                 for (int f = 0; f < hossz - 1; f++)
                 {
-                    if(mit == "nev")
+                    if (mit == "nev")
                     {
                         if (ugyfelek[f].nev[0] > ugyfelek[f + 1].nev[0])
                         {
@@ -44,7 +44,7 @@ namespace ingatlan
                             ugyfelek[f] = ideiglenes;
                         }
                     }
-                   else if(mit == "ugyfelazonosito")
+                    else if (mit == "ugyfelazonosito")
                     {
                         if (ugyfelek[f].azonosito > ugyfelek[f + 1].azonosito)
                         {
@@ -64,7 +64,7 @@ namespace ingatlan
                     }
                     else if (mit == "cim")
                     {
-                        if (int.Parse(ingatlanok[f].cim.Split(' ')[0]) > int.Parse(ingatlanok[f+1].cim.Split(' ')[0]))
+                        if (int.Parse(ingatlanok[f].cim.Split(' ')[0]) > int.Parse(ingatlanok[f + 1].cim.Split(' ')[0]))
                         {
                             ingatlan ideiglenes = ingatlanok[f + 1];
                             ingatlanok[f + 1] = ingatlanok[f];
@@ -218,7 +218,7 @@ namespace ingatlan
                                 Console.WriteLine("{0}", ugyfelek[i].azonosito);
                                 Console.SetCursorPosition(5, i + 1 - sor);
                                 Console.WriteLine("{0}", ugyfelek[i].nev);
-                                Console.SetCursorPosition(Console.WindowWidth-17, i + 1 - sor);
+                                Console.SetCursorPosition(Console.WindowWidth - 17, i + 1 - sor);
                                 Console.WriteLine("{0}", ugyfelek[i].tel);
                                 Console.BackgroundColor = ConsoleColor.Black;
                                 Console.ForegroundColor = ConsoleColor.White;
@@ -346,7 +346,7 @@ namespace ingatlan
                                     break;
                                 case ConsoleKey.E:
                                     //Rendezés azonosító szerint
-                                    rendezes("ingatlanazonosito",ingatlanok.Count);
+                                    rendezes("ingatlanazonosito", ingatlanok.Count);
                                     break;
                                 case ConsoleKey.R:
                                     //Rendezés cím(irányítószám) szerint
@@ -372,6 +372,67 @@ namespace ingatlan
 
                         break;
                     case '6':
+
+                        Random r = new Random();
+                        bool talalt = false;
+                        int szemely = 0;
+                        while (!talalt)
+                        {
+                            Console.WriteLine("Adja meg az ügyfél azonosítóját:");
+                            szemely = int.Parse(Console.ReadLine());
+                            for (int i = 0; i < ugyfelekfajl.Length; i++)
+                            {
+                                if (ugyfelek[i].azonosito == szemely)
+                                {
+                                    talalt = true;
+
+                                }
+
+                            }
+                        }
+                        Console.WriteLine("Kérem adja meg a mai dátumot(2023-02-26):");
+                        string datum = Console.ReadLine();
+                        Console.WriteLine("Kérem adja meg hány ingatlanról szeretne ajánlatot kapni: (Max {0})",ingatlanok.Count);                       
+                        int darab = int.Parse(Console.ReadLine());
+                        while (darab>ingatlanok.Count)
+                        {
+                            Console.WriteLine("Nem elérhető ennyi ingatlan (Max {0})",ingatlanok.Count);
+                            darab = int.Parse(Console.ReadLine());
+                        }
+                        
+                        if (talalt)
+                        {
+                            StreamWriter ajanlat = new StreamWriter("ajanlat.txt");
+                           
+                            ajanlat.WriteLine("Kedves {0} a számodra ajánlott ingatlan adatai", ugyfelek[szemely].nev);
+                            ajanlat.WriteLine("Azon\tCím\t\tAlapterület\t\tÁr");
+                            int[] ajanlatok = new int[darab];
+                            for (int i = 0; i < darab-1; i++)
+                            {
+                                int veletlen = r.Next(0, ingatlanok.Count);
+                                while(ajanlatok.Contains(veletlen))
+                                {
+                                    veletlen = r.Next(0, ingatlanok.Count);
+                                    
+                                }
+                                ajanlatok[i] = veletlen;
+                               
+                            }
+                            for (int i = 0; i < darab; i++)
+                            {
+                                ingatlan ajanlottIngatlan = ingatlanok[ajanlatok[i]];
+                                ajanlat.WriteLine("{0}\t{1}\t{2}m2\t{3}FT", ajanlottIngatlan.azonosito, ajanlottIngatlan.cim, ajanlottIngatlan.alapter, ajanlottIngatlan.ar);
+                            }
+
+                            ajanlat.Close();
+                            Console.WriteLine("Az ajánlata elkészült");
+
+                        }
+                        else
+                        {
+                            Console.WriteLine("Érvénytelen sorszám(ok);");
+                        }
+
 
 
 

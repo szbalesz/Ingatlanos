@@ -398,7 +398,7 @@ namespace ingatlan
                         }
                         if (talalt)
                         {
-                            StreamWriter ajanlat = new StreamWriter(szemely+"_"+datum+".txt");
+                            StreamWriter ajanlat = new StreamWriter(szemely + "_" + datum + ".txt");
 
                             ajanlat.WriteLine("Kedves {0} a számodra ajánlott ingatlan adatai", ugyfelek[szemely].nev);
                             ajanlat.WriteLine("Azon\tCím\t\tAlapterület\t\tÁr");
@@ -437,9 +437,9 @@ namespace ingatlan
                         break;
                 }
                 Console.WriteLine();
-                Console.WriteLine("                                    ───────────────────────────────────────────────────────");
-                Console.WriteLine("                                        Nyomj meg egy gombot, hogy visszatérj a menübe!  ");
-                Console.WriteLine("                                    ───────────────────────────────────────────────────────");
+                Console.WriteLine("\t\t\t\t───────────────────────────────────────────────────────");
+                Console.WriteLine("\t\t\t\t    Nyomj meg egy gombot, hogy visszatérj a menübe!  ");
+                Console.WriteLine("\t\t\t\t───────────────────────────────────────────────────────");
                 Console.ReadKey();
             }
         }
